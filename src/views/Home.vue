@@ -25,7 +25,7 @@
       </div>
       
       <div class="ui segment">
-        <form class="ui form" @submit.prevent="getSearchedArticle">
+        <form class="ui form" @submit.prevent="getSearchedArticles">
           <div class="field">
             <label>ユーザー名</label>
             <input type="text" placeholder="ユーザーID" v-model="search.userId" />
@@ -155,7 +155,28 @@ export default {
       }
     }, 
     async getSearchedArticles() {// 記事を検索する
-      
+      const headers = {'Authorization' : 'mtiToken'};
+      console.log("getSearchArticles do");
+      let pass = `/articles?userId=${this.search.userId}`;
+      if (this.search.category) {
+        pass += `&category=${this.search.category}`;
+      }
+      if (this.search.start) {
+        pass += `&start=${this.search.start}`;
+      }
+      if (this.search.end) {
+        pass += `&end=${this.search.end}`;
+      }
+          
+      try {
+        const res = await axios.get(baseUrl + pass , {
+          headers
+        });
+        this.articles = res.data;
+        console.log(this.articles);
+      }catch(e){
+        //error処理
+      }
     }, 
     async deleteArticle(article) {// 記事を削除する
       article
