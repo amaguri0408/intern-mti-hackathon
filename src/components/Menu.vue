@@ -1,7 +1,6 @@
 <template>
   <div class="ui secondary pointing green inverted massive menu" v-if="isMenuNeeded">
     <router-link active-class="active" class="item" exact to="/">Home</router-link>
-    <router-link active-class="active" class="item" exact to="/article">Article</router-link>
     <router-link active-class="active" class="item" to="/user">User</router-link>
     <router-link active-class="active" class="item" to="/profile">Profile</router-link>
     <div class="right menu">
