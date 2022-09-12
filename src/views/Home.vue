@@ -115,6 +115,7 @@ export default {
       alert("ユーザー情報が認証できませんでした．ログインし直してください．")
       this.$router.push({name: "Login"});
     }
+    this.getArticles();
   },
 
   methods: {
@@ -123,10 +124,12 @@ export default {
       return id === window.localStorage.getItem("userId");
     }, 
     async getArticles() {// 記事一覧を取得する
+      console.log("getArticles do");
       const headers = {'Authorization' : 'mtiToken'};
     try {
       const res = await axios.get(baseUrl + "/articles", { headers });
-      this.articles = res.data.articles;
+      this.articles = res.data;
+      console.log(this.articles);
     }catch(e){
       //error処理
     }
