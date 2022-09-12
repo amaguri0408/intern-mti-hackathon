@@ -62,7 +62,7 @@
             <h2 class="article-title"> {{ article.userId }} </h2>
             <span class="article-time"> {{ dateTime[index] }} </span>
             <p class="article-text"> {{ article.text }} </p>
-            <div class="ui green label"> {{ article.category }} </div>
+            <div v-if="hasCategory[index]" class="ui green label large"> {{ article.category }} </div>
             <div v-if="isMyId[index]" class="mini ui button article-delete">削除</div>
           </li>
         </template>
@@ -100,6 +100,7 @@ export default {
       articles: [],
       iam: null,
       isMyId: [],
+      hasCategory: [],
       dateTime: [],
     };
   },
@@ -127,11 +128,12 @@ export default {
     
     this.articles.forEach((article) => {
       this.isMyArticle(article.userId);
+      this.convertToLocaleString(article.timestamp);
+      this.hasSomeCategory(article.category);
     })
     
-    this.articles.forEach((article) => {
-      this.convertToLocaleString(article.timestamp);
-    })
+    // this.articles.forEach((article) => {
+    // })
     
   },
 
@@ -139,14 +141,19 @@ export default {
     // Vue.jsで使う関数はここで記述する
     isMyArticle(id) {// 自分の記事かどうかを判定する
       this.isMyId.push(id === window.localStorage.getItem("userId"));
-    }, 
+    },
+    
+    hasSomeCategory(category) {
+      console.log(typeof category !== "undefined");
+      this.hasCategory.push(typeof category !== "undefined");
+    },
     
     async getArticles() {// 記事一覧を取得する
       const headers = {'Authorization' : 'mtiToken'};
     try {
       const res = await axios.get(baseUrl + "/articles", { headers });
       this.articles = res.data;
-    }catch(e){
+    } catch (e){
       //error処理
     }
     }, 

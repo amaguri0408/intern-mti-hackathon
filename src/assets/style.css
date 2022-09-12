@@ -26,6 +26,15 @@ input {
   display: inline;
 }
 
+.article-time {
+  margin-left: 10px;
+}
+
+.article-text {
+  font-size: 18px;
+  margin: 15px 0px;
+}
+
 .article-delete {
   position: absolute;
   right: 20px;
