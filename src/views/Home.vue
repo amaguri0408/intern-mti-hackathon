@@ -158,10 +158,31 @@ export default {
       
     }, 
     async deleteArticle(article) {// 記事を削除する
-      article
+      const headers = {'Authorization' : 'mtiToken'};
+      
+      const data = {
+        userId: article.userId,
+        timestamp: article.timestamp
+      }
+      
+      try {
+        const res = await axios.delete(baseUrl + '/article', {data, headers });
+        console.log(res);
+        
+      }catch(e){
+        console.log(e)
+      }
     }, 
     convertToLocaleString(timestamp) {// timestampをLocaleDateStringに変換する
-      timestamp
+      const now = new Date(timestamp);
+      const year = now.getFullYear();
+      const month = now.getMonth() + 1;
+      const date = now.getDate();
+      const hour = now.getHours();
+      const min = now.getMinutes();
+      const sec = now.getSeconds();
+      const res = year + "/" + month + "/" + date + " " + hour + ":" + min + ":" + sec;
+      return res;
     } 
   }
 }
