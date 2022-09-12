@@ -58,18 +58,7 @@
       
       <ul class="ui comments divided">
         <template v-for="(article, index) in articles">
-          <li v-bind:key="index">
-            <div class="ui card fluid">
-              <div class="content">
-                <h2 class="header">
-                  {{ article.userId }}
-                </h2>
-                <span class="meta">{{ article.timestamp }}</span>
-                <span class="meta">{{ article.text }}</span>
-              </div>
-              <span class="ui green label">{{ article.category }}</span>
-            </div>
-          </li>
+          <li v-bind:key="index">{{ article }}</li>
         </template>
       </ul>
     </div>
