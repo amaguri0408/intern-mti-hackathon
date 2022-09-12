@@ -120,13 +120,30 @@ export default {
   methods: {
     // Vue.jsで使う関数はここで記述する
     isMyArticle(id) {// 自分の記事かどうかを判定する
-      id
+      return id === window.localStorage.getItem("userId");
     }, 
     async getArticles() {// 記事一覧を取得する
       
     }, 
     async postArticle() {// 記事を作成する
+      // headerを指定する
+      const headers = {'Authorization' : 'mtiToken'};
+      // リクエストボディを指定する
+      let requestBody = {
+        userId: window.localStorage.getItem('userId'),
+        text: this.post.text,
+      };
+      if (this.post.category){
+        requestBody.category = this.post.category;
+      }
       
+      try {
+        const res = await axios.post(baseUrl + '/article', requestBody, { headers });
+        console.log(res);
+        
+      }catch(e){
+        console.log(e)
+      }
     }, 
     async getSearchedArticles() {// 記事を検索する
       
