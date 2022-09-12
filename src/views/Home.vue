@@ -60,7 +60,7 @@
         <template v-for="(article, index) in articles">
           <li v-bind:key="index" class="ui segment article-card ">
             <h2 class="article-title"> {{ article.userId }} </h2>
-            <span class="article-time"> {{ article.timestamp }} </span>
+            <span class="article-time"> {{ dateTime[index] }} </span>
             <p class="article-text"> {{ article.text }} </p>
             <div class="ui green label"> {{ article.category }} </div>
             <div v-if="isMyId[index]" class="mini ui button article-delete">削除</div>
@@ -103,11 +103,8 @@ export default {
       dateTime: [],
     };
   },
-  // computed: {
-  //   isMyId() {
-  //     return this.isMyArticle
-  //   }
-  // },
+  computed: {
+  },
   
   created: async function() {
     const token = window.localStorage.getItem('token');
@@ -132,6 +129,9 @@ export default {
       this.isMyArticle(article.userId);
     })
     
+    this.articles.forEach((article) => {
+      this.convertToLocaleString(article.timestamp);
+    })
     
   },
 
@@ -140,13 +140,12 @@ export default {
     isMyArticle(id) {// 自分の記事かどうかを判定する
       this.isMyId.push(id === window.localStorage.getItem("userId"));
     }, 
+    
     async getArticles() {// 記事一覧を取得する
-      console.log("getArticles do");
       const headers = {'Authorization' : 'mtiToken'};
     try {
       const res = await axios.get(baseUrl + "/articles", { headers });
       this.articles = res.data;
-      console.log(this.articles);
     }catch(e){
       //error処理
     }
@@ -199,7 +198,7 @@ export default {
       const min = now.getMinutes();
       const sec = now.getSeconds();
       const res = year + "/" + month + "/" + date + " " + hour + ":" + min + ":" + sec;
-      return res;
+      this.dateTime.push(res);
     } 
   }
 }
