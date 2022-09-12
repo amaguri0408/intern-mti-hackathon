@@ -56,9 +56,15 @@
         </form>
       </div>
       
-      <ul class="ui comments divided">
+      <ul class="ui comments divided articles">
         <template v-for="(article, index) in articles">
-          <li v-bind:key="index">{{ article }}</li>
+          <li v-bind:key="index" class="ui segment article-card ">
+            <h2 class="article-title"> {{ article.userId }} </h2>
+            <span class="article-time"> {{ dateTime[index] }} </span>
+            <p class="article-text"> {{ article.text }} </p>
+            <div v-if="hasCategory[index]" class="ui green label large"> {{ article.category }} </div>
+            <div v-if="isMyId[index]" class="mini ui button article-delete">削除</div>
+          </li>
         </template>
       </ul>
     </div>
@@ -93,10 +99,12 @@ export default {
       },
       articles: [],
       iam: null,
+      isMyId: [],
+      hasCategory: [],
+      dateTime: [],
     };
   },
   computed: {
-  // 計算した結果を変数として利用したいときはここに記述する
   },
   
   created: async function() {
@@ -115,22 +123,37 @@ export default {
       alert("ユーザー情報が認証できませんでした．ログインし直してください．")
       this.$router.push({name: "Login"});
     }
-    this.getArticles();
+    
+    await this.getArticles();
+    
+    this.articles.forEach((article) => {
+      this.isMyArticle(article.userId);
+      this.convertToLocaleString(article.timestamp);
+      this.hasSomeCategory(article.category);
+    })
+    
+    // this.articles.forEach((article) => {
+    // })
+    
   },
 
   methods: {
     // Vue.jsで使う関数はここで記述する
     isMyArticle(id) {// 自分の記事かどうかを判定する
-      return id === window.localStorage.getItem("userId");
-    }, 
+      this.isMyId.push(id === window.localStorage.getItem("userId"));
+    },
+    
+    hasSomeCategory(category) {
+      console.log(typeof category !== "undefined");
+      this.hasCategory.push(typeof category !== "undefined");
+    },
+    
     async getArticles() {// 記事一覧を取得する
-      console.log("getArticles do");
       const headers = {'Authorization' : 'mtiToken'};
     try {
       const res = await axios.get(baseUrl + "/articles", { headers });
       this.articles = res.data;
-      console.log(this.articles);
-    }catch(e){
+    } catch (e){
       //error処理
     }
     }, 
@@ -182,7 +205,7 @@ export default {
       const min = now.getMinutes();
       const sec = now.getSeconds();
       const res = year + "/" + month + "/" + date + " " + hour + ":" + min + ":" + sec;
-      return res;
+      this.dateTime.push(res);
     } 
   }
 }

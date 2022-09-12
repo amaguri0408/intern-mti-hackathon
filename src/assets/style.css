@@ -10,3 +10,33 @@ input {
 .main.container {
   margin-top: 30px;
 }
+
+.articles {
+  padding-left: 0px;
+  padding-right: 0px;
+  display: inline;
+}
+
+.article-card {
+  list-style: none;
+  position: relative;
+}
+
+.article-title {
+  display: inline;
+}
+
+.article-time {
+  margin-left: 10px;
+}
+
+.article-text {
+  font-size: 18px;
+  margin: 15px 0px;
+}
+
+.article-delete {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
