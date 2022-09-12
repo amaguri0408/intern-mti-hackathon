@@ -2,7 +2,18 @@
   <div>
     <div class="ui main container">
       <!-- 基本的なコンテンツはここに記載する -->
-      <h1>Article page</h1>
+      <div class="ui segment">
+        <form class="ui large form" @submit.prevent="submit">
+          <div CLASS="field">
+            <div class="ui input">
+              <!--<input type="textarea" placeholder="本文">-->
+              <textarea placeholder="本文"></textarea>
+            </div>
+            <label>カテゴリー</label>
+          </div>
+        
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -21,6 +32,18 @@ export default {
   data() {
   // Vue.jsで使う変数はここに記述する
     return {
+      post: {
+        text: null,
+        category: null,
+      },
+      search: {
+        userId: null,
+        category: null,
+        start: null,
+        end: null,
+      },
+      articles: [],
+      iam: null
     };
   },
   computed: {
