@@ -126,7 +126,24 @@ export default {
       
     }, 
     async postArticle() {// 記事を作成する
+      // headerを指定する
+      const headers = {'Authorization' : 'mtiToken'};
+      // リクエストボディを指定する
+      let requestBody = {
+        userId: window.localStorage.getItem('userId'),
+        text: this.post.text,
+      };
+      if (this.post.category){
+        requestBody.category = this.post.category;
+      }
       
+      try {
+        const res = await axios.post(baseUrl + '/article', requestBody, { headers });
+        console.log(res);
+        
+      }catch(e){
+        console.log(e)
+      }
     }, 
     async getSearchedArticles() {// 記事を検索する
       
