@@ -123,7 +123,13 @@ export default {
       return id === window.localStorage.getItem("userId");
     }, 
     async getArticles() {// 記事一覧を取得する
-      
+      const headers = {'Authorization' : 'mtiToken'};
+    try {
+      const res = await axios.get(baseUrl + "/articles", { headers });
+      this.articles = res.data.articles;
+    }catch(e){
+      //error処理
+    }
     }, 
     async postArticle() {// 記事を作成する
       // headerを指定する
