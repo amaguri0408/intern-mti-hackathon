@@ -120,7 +120,7 @@ export default {
   methods: {
     // Vue.jsで使う関数はここで記述する
     isMyArticle(id) {// 自分の記事かどうかを判定する
-      id
+      return id === window.localStorage.getItem("userId");
     }, 
     async getArticles() {// 記事一覧を取得する
       
