@@ -3,13 +3,10 @@ const dynamo = new AWS.DynamoDB.DocumentClient();
 const TableName = "Article";
 
 function parameter(userId, start, end, category) {
-  var value = "";
-  
   let param = {
     TableName,
     "Limit": 100,
     KeyConditionExpression: "userId = :uid",
-    // FilterExpression: value,
     ExpressionAttributeValues: {
       ":uid": userId
     },
@@ -18,8 +15,6 @@ function parameter(userId, start, end, category) {
     }
   };
   if(category){
-    // param.FilterExpression.push("category = :ctg");
-    value += "category = :ctg";
     param.ExpressionAttributeValues[":ctg"] = category;
     param.FilterExpression = "category = :ctg";
     param.ExpressionAttributeNames["#ts"] = "timestamp";
@@ -53,7 +48,6 @@ function parameter(userId, start, end, category) {
       param.ExpressionAttributeValues[":end"] = parseInt(end);
     }
   }
-  // param.FilterExpression = value;
   return param;
 }
 
@@ -66,7 +60,6 @@ exports.handler = async (event, context) => {
     body: JSON.stringify({ message: "" }),
   };
   
-  // const { userId, start, end, category} = event.queryStringParameters;
   const userId = event.queryStringParameters?.userId;
   const category = event.queryStringParameters?.category;
   const start = event.queryStringParameters?.start;
@@ -96,15 +89,32 @@ exports.handler = async (event, context) => {
       response.body = JSON.stringify(articles);
       console.log("all");
     }
-    else if (!category && !start && !end) {
+    else{
+      if (!category && !start && !end) {
+        param = {
+          TableName,
+          "Limit":100,
+          KeyConditionExpression: "userId = :uid",
+          ExpressionAttributeValues: {
+            ":uid": userId,
+          }
+        };
+      }
+      else if(!start && !end){
       param = {
         TableName,
         "Limit":100,
         KeyConditionExpression: "userId = :uid",
+        FilterExpression: "category = :ctg",
         ExpressionAttributeValues: {
           ":uid": userId,
+          ":ctg": category
         }
-      };
+        };
+      }
+      else {
+        param = parameter(userId, start, end, category);
+      }
       const filteredArticles = (await dynamo.query(param).promise()).Items;
       response.statusCode = 201;
       filteredArticles.sort();
@@ -112,23 +122,6 @@ exports.handler = async (event, context) => {
       response.body = JSON.stringify(filteredArticles);
       console.log("filterd");
     }
-    else {
-      param = parameter(userId, start, end, category);
-      const filteredArticles = (await dynamo.query(param).promise()).Items;
-      response.statusCode = 201;
-      filteredArticles.sort();
-      filteredArticles.reverse();
-      response.body = JSON.stringify(filteredArticles);
-      console.log("filterd");
-    }
-    
-    // function condition(article) {
-    //   if((this.userId === article.userId) && (this.start === "" || this.start <== article.timestamp) 
-    //   && (this.end === "" || this.end >== article.timestamp) && (this.category === "" || this.category === article.category)){
-    //     return true;
-    //   }
-    //   else return false;
-    // }
     //TODO: レスポンスボディを設定する
     
   
