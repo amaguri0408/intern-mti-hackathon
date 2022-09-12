@@ -56,9 +56,15 @@
         </form>
       </div>
       
-      <ul class="ui comments divided">
+      <ul class="ui comments divided articles">
         <template v-for="(article, index) in articles">
-          <li v-bind:key="index">{{ article }}</li>
+          <li v-bind:key="index" class="ui segment article-card ">
+            <h2 class="article-title"> {{ article.userId }} </h2>
+            <span class="article-time"> {{ article.timestamp }} </span>
+            <p class="article-text"> {{ article.text }} </p>
+            <div class="ui green label"> {{ article.category }} </div>
+            <div v-if="isMyId[index]" class="mini ui button article-delete">削除</div>
+          </li>
         </template>
       </ul>
     </div>
@@ -93,11 +99,15 @@ export default {
       },
       articles: [],
       iam: null,
+      isMyId: [],
+      dateTime: [],
     };
   },
-  computed: {
-  // 計算した結果を変数として利用したいときはここに記述する
-  },
+  // computed: {
+  //   isMyId() {
+  //     return this.isMyArticle
+  //   }
+  // },
   
   created: async function() {
     const token = window.localStorage.getItem('token');
@@ -115,13 +125,20 @@ export default {
       alert("ユーザー情報が認証できませんでした．ログインし直してください．")
       this.$router.push({name: "Login"});
     }
-    this.getArticles();
+    
+    await this.getArticles();
+    
+    this.articles.forEach((article) => {
+      this.isMyArticle(article.userId);
+    })
+    
+    
   },
 
   methods: {
     // Vue.jsで使う関数はここで記述する
     isMyArticle(id) {// 自分の記事かどうかを判定する
-      return id === window.localStorage.getItem("userId");
+      this.isMyId.push(id === window.localStorage.getItem("userId"));
     }, 
     async getArticles() {// 記事一覧を取得する
       console.log("getArticles do");
@@ -161,7 +178,8 @@ export default {
       article
     }, 
     convertToLocaleString(timestamp) {// timestampをLocaleDateStringに変換する
-      timestamp
+      let dateTime = (parseInt(timestamp) * 1000);
+      console.log(dateTime.toString());
     } 
   }
 }
