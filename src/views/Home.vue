@@ -63,7 +63,7 @@
             <span class="article-time"> {{ dateTime[index] }} </span>
             <p class="article-text"> {{ article.text }} </p>
             <div v-if="hasCategory[index]" class="ui green label large"> {{ article.category }} </div>
-            <div v-if="isMyId[index]" class="mini ui button article-delete">削除</div>
+            <div v-if="isMyArticle(article.userId)" class="mini ui button article-delete">削除</div>
           </li>
         </template>
       </ul>
@@ -99,7 +99,7 @@ export default {
       },
       articles: [],
       iam: null,
-      isMyId: [],
+      // isMyId: [],
       hasCategory: [],
       dateTime: [],
     };
@@ -140,11 +140,11 @@ export default {
   methods: {
     // Vue.jsで使う関数はここで記述する
     isMyArticle(id) {// 自分の記事かどうかを判定する
-      this.isMyId.push(id === window.localStorage.getItem("userId"));
+      // this.isMyId.push(id === window.localStorage.getItem("userId"));
+      return id === window.localStorage.getItem("userId");
     },
     
     hasSomeCategory(category) {
-      console.log(typeof category !== "undefined");
       this.hasCategory.push(typeof category !== "undefined");
     },
     
