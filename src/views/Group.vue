@@ -17,7 +17,7 @@
                   <input type="text" v-model="post.category" />
                 </div>
               </div>
-              <button class="ui green button" type="submit">投稿</button>
+              <button class="ui orange button" type="submit">投稿</button>
             </div>
           </div>
         
@@ -52,7 +52,7 @@
               </div>
             </div>
           </div>
-          <button class="ui green button" type="submit">検索</button>
+          <button class="ui orange button" type="submit">検索</button>
         </form>
       </div>
       
@@ -62,7 +62,7 @@
             <h2 class="article-title"> {{ article.userId }} </h2>
             <span class="article-time"> {{ dateTime[index] }} </span>
             <p class="article-text"> {{ article.text }} </p>
-            <div v-if="hasCategory[index]" class="ui green label large"> {{ article.category }} </div>
+            <div v-if="hasCategory[index]" class="ui orange label large"> {{ article.category }} </div>
             <div v-if="isMyArticle(article.userId)" class="mini ui button article-delete">削除</div>
           </li>
         </template>
