@@ -14,7 +14,7 @@ exports.handler = async (event, context) => {
   //TODO: 取得対象のテーブル名をparamに宣言
   const param = {TableName};
     
-  try{
+  try {
     // dynamo.scan()で全件取得
     const groups = (await dynamo.scan(param).promise()).Items;
     
