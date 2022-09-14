@@ -51,13 +51,29 @@
             </div>
           </div>
           
-          <button class="ui huge fluid green button" v-bind:disabled="submitDisabled" type="submit">
+          <button class="ui huge fluid orange button" v-bind:disabled="submitDisabled" type="submit">
             更新
           </button>
         </form>
       </div>
       <button @click="deleteUser" class="ui small grey fluid button" type="submit">
         退会
+      </button>
+      <div class="ui segment">
+        <div class="ui header">
+          <i class="user circle icon"></i>
+          <div class="content">所属グループ名</div>
+        </div>
+        <div class="ui orange huge label">筋トレ部A</div>
+      </div>
+      <div class="ui segment">
+        <div class="centered">
+          <h3 class="centered">おすすめ動画</h3>
+          <yt-video videoId="g46tZN9J_2k" :width="966" :height="543" />
+        </div>
+      </div>
+      <button class="ui huge orange fluid button" type="submit">
+        食事をした
       </button>
     </div>
   </div>
@@ -66,6 +82,7 @@
 // 必要なものはここでインポートする
 // @は/srcの同じ意味です
 // import something from '@/components/something.vue';
+import YtVideo from "@/components/YtVideo.vue";
 import { baseUrl } from '@/assets/config.js';
 import axios from "axios";
 
@@ -73,6 +90,7 @@ export default {
   name: 'Mypage',
   components: {
    // 読み込んだコンポーネント名をここに記述する
+   YtVideo,
   },
   data() {
   // Vue.jsで使う変数はここに記述する
