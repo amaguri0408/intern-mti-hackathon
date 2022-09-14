@@ -4,35 +4,52 @@
       <!-- 基本的なコンテンツはここに記載する -->
       <div class="ui segment">
         <form class="ui large form" @submit.prevent="submit">
-          <div CLASS="field">
+          <div class="field">
             <div class="ui left icon input">
               <i class="user icon"></i>
               <input type="text" placeholder="ID" v-model="user.userId">
             </div>
           </div>
           
-          <div CLASS="field">
+          <div class="field">
             <div class="ui left icon input">
               <i class="lock icon"></i>
               <input type="text" placeholder="Password" v-model="user.password">
             </div>
           </div>
           
-          <div CLASS="field" v-if="!isLogin">
-            <div class="ui left icon input">
-              <i class="tag icon"></i>
-              <input type="text" placeholder="Nickname" v-model="user.nickname">
+          <div v-if="!isLogin">
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="type" value="alone">
+                <label>一人で始める</label>
+              </div>
             </div>
+            
+            <div class="field" value="together">
+              <div class="ui radio checkbox">
+                <input type="radio" name="type">
+                <label>友達と始める</label>
+              </div>
+            </div>
+            
+            <h2>グループ選択</h2>
+        
+            <div class="ui segment group">AAAAAAAAa</div>
+            <div class="ui segment group">AAAAAAAAa</div>
+            <div class="ui segment group">AAAAAAAAa</div>
+            
+        <!--<template v-for="(group) in groups">-->
+        <!--    <div class="ui segment">-->
+        <!--      <div class="content">-->
+        <!--        <div class="orange">{{ group }}</div>-->
+        <!--      </div>-->
+        <!--    </div>-->
+        <!--</template>-->
+        
           </div>
           
-          <div CLASS="field" v-if="!isLogin">
-            <div class="ui left icon input">
-              <i class="calendar icon"></i>
-              <input type="text" placeholder="Age" v-model="user.age">
-            </div>
-          </div>
-          
-          <button class="ui huge fluid green button" type="submit">
+          <button class="ui huge fluid orange button" type="submit">
             {{ submitText }}
           </button>
         </form>

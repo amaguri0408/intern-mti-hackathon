@@ -1,5 +1,5 @@
 <template>
-  <div class="ui secondary pointing green inverted massive menu" v-if="isMenuNeeded">
+  <div class="ui secondary pointing orange inverted massive menu" v-if="isMenuNeeded">
     <router-link active-class="active" class="item" exact to="/">ホーム</router-link>
     <router-link active-class="active" class="item" to="/group">グループ</router-link>
     <router-link active-class="active" class="item" to="/ranking">ランキング</router-link>
