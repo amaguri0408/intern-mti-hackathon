@@ -23,6 +23,11 @@
         </p>
         
         <form class="ui large form" @submit.prevent="submit">
+          <div class="ui header">
+            <i class="id card outline icon"></i>
+            <div class="content">ユーザー情報</div>
+          </div>
+          
           <div CLASS="field">
             <div class="ui left icon input">
               <i class="user icon"></i>
@@ -67,14 +72,22 @@
         <div class="ui orange huge label">筋トレ部A</div>
       </div>
       <div class="ui segment">
-        <div class="centered">
-          <h3 class="centered">おすすめ動画</h3>
-          <yt-video videoId="g46tZN9J_2k" :width="966" :height="543" />
+        <div class="ui header">
+          <i class="video play icon"></i>
+          <div class="content">おすすめ動画</div>
         </div>
+        <yt-video videoId="g46tZN9J_2k" :width="966" :height="543" />
       </div>
-      <button class="ui huge orange fluid button" type="submit">
+      <button @click="toggleMode()" class="ui huge orange fluid button" type="submit" v-if="!isMeal">
         食事をした
       </button>
+      <div class="ui segment" v-if="isMeal">
+        <div class="ui header">
+          <i class="clock outline icon"></i>
+          <div class="content">おすすめ筋トレ時間</div>
+        </div>
+        <div>16:00~17:00</div>
+      </div>
     </div>
   </div>
 </template>
@@ -104,6 +117,7 @@ export default {
       successMsg: "",
       errorMsg: "",
       isCallingApi: false,
+      isMeal: false
     };
   },
   computed: {
@@ -115,6 +129,9 @@ export default {
   },
   methods: {
   // Vue.jsで使う関数はここで記述する
+    toggleMode() {
+      this.isMeal = !this.isMeal;
+    },
     clearMsg(target) {
       if (target === "success"){
         this.successMsg = ""
