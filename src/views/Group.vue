@@ -67,7 +67,7 @@
           </li>
         </template>
       </ul>
-    </div>
+      </div>
   </div>
 </template>
 <script>
