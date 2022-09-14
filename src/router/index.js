@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '../views/Mypage.vue'
 import Login from '../views/Login.vue'
-import Profile from '../views/Profile.vue'
-import User from '../views/User.vue'
+import Ranking from '../views/Ranking.vue'
+import Group from '../views/Group.vue'
 
 Vue.use(VueRouter)
 
@@ -19,15 +19,15 @@ const routes = [
     component: Login
   },
   {
-    path: '/profile',
-    name: 'Profile',
-    component: Profile
+    path: '/group',
+    name: 'Group',
+    component: Group
   },
   {
-    path: '/user',
-    name: 'User',
-    component: User
-  },
+    path: '/ranking',
+    name: 'Ranking',
+    component: Ranking
+  }
 ]
 
 const router = new VueRouter({

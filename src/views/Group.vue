@@ -1,64 +1,72 @@
 <template>
   <div>
     <div class="ui main container">
-      
-      <!--ローディング表示-->
-      <div class="ui active inverted page dimmer" v-if="isCallingApi">
-        <div class="ui text loader">Loading</div>
+      <!-- 基本的なコンテンツはここに記載する -->
+      <div class="ui segment">
+        <form class="ui form" @submit.prevent="postArticle">
+          <div CLASS="field">
+            <div class="ui input">
+              <!--<input type="textarea" placeholder="本文">-->
+              <textarea placeholder="あなたの投稿を発信しましょう" v-model="post.text"></textarea>
+            </div>
+            
+            <div class="field">
+              <div class="inline fields">
+                <div class="field">
+                  <label>カテゴリー</label>
+                  <input type="text" v-model="post.category" />
+                </div>
+              </div>
+              <button class="ui green button" type="submit">投稿</button>
+            </div>
+          </div>
+        
+        </form>
       </div>
       
       <div class="ui segment">
-        <!--エラーメッセージ-->
-        <p class="ui negative message" v-if="errorMsg">
-          <i class="close icon" @click="clearMsg('error')"></i>
-          <span class="header">エラーが発生しました！</span>
-          {{ errorMsg }}
-        </p>
-        
-        <!--更新成功メッセージ-->
-        <p class="ui positive message" v-if="successMsg">
-          <i class="close icon" @click="clearMsg('success')"></i>
-          <span class="header">完了しました！</span>
-          {{ successMsg }}
-        </p>
-        
-        <form class="ui large form" @submit.prevent="submit">
-          <div CLASS="field">
-            <div class="ui left icon input">
-              <i class="user icon"></i>
-              <input type="text" placeholder="ID" v-model="user.userId" required disabled>
-            </div>
+        <form class="ui form" @submit.prevent="getSearchedArticles">
+          <div class="field">
+            <label>ユーザー名</label>
+            <input type="text" placeholder="ユーザーID" v-model="search.userId" />
           </div>
           
-          <div CLASS="field">
-            <div class="ui left icon input">
-              <i class="lock icon"></i>
-              <input type="text" placeholder="Password" v-model="user.password">
-            </div>
+          <div class="field">
+            <label>カテゴリー名</label>
+            <input type="text" placeholder="カテゴリ" v-model="search.category" />
           </div>
           
-          <div CLASS="field">
-            <div class="ui left icon input">
-              <i class="tag icon"></i>
-              <input type="text" placeholder="Nickname" v-model="user.nickname">
+          <div class="field">
+            <label>投稿日時</label>
+            <div class="inline fields">
+              <div class="field">
+                <input type="text" v-model.number="search.start" />
+                <label>から</label>
+              </div>
+              
+              <div class="field">
+                <input type="text" v-model.number="search.end" />
+                <label>
+                  まで
+                </label>
+              </div>
             </div>
           </div>
-          
-          <div CLASS="field">
-            <div class="ui left icon input">
-              <i class="calendar icon"></i>
-              <input type="text" placeholder="Age" v-model="user.age">
-            </div>
-          </div>
-          
-          <button class="ui huge fluid green button" v-bind:disabled="submitDisabled" type="submit">
-            更新
-          </button>
+          <button class="ui green button" type="submit">検索</button>
         </form>
       </div>
-      <button @click="deleteUser" class="ui small grey fluid button" type="submit">
-        退会
-      </button>
+      
+      <ul class="ui comments divided articles">
+        <template v-for="(article, index) in articles">
+          <li v-bind:key="index" class="ui segment article-card ">
+            <h2 class="article-title"> {{ article.userId }} </h2>
+            <span class="article-time"> {{ dateTime[index] }} </span>
+            <p class="article-text"> {{ article.text }} </p>
+            <div v-if="hasCategory[index]" class="ui green label large"> {{ article.category }} </div>
+            <div v-if="isMyArticle(article.userId)" class="mini ui button article-delete">削除</div>
+          </li>
+        </template>
+      </ul>
     </div>
   </div>
 </template>
@@ -72,7 +80,7 @@ import axios from "axios";
 // const headers = {'Authorization' : 'mtiToken'};
 
 export default {
-  name: 'Home',
+  name: 'Group',
   components: {
    // 読み込んだコンポーネント名をここに記述する
   },
