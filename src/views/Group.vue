@@ -7,16 +7,10 @@
           <div CLASS="field">
             <div class="ui input">
               <!--<input type="textarea" placeholder="本文">-->
-              <textarea placeholder="あなたの投稿を発信しましょう" v-model="post.text"></textarea>
+              <textarea placeholder="グループに筋トレの報告をしましょう！" v-model="post.text"></textarea>
             </div>
             
-            <div class="field">
-              <div class="inline fields">
-                <div class="field">
-                  <label>カテゴリー</label>
-                  <input type="text" v-model="post.category" />
-                </div>
-              </div>
+            <div class="ui field">
               <button class="ui orange button" type="submit">投稿</button>
             </div>
           </div>
@@ -29,11 +23,6 @@
           <div class="field">
             <label>ユーザー名</label>
             <input type="text" placeholder="ユーザーID" v-model="search.userId" />
-          </div>
-          
-          <div class="field">
-            <label>カテゴリー名</label>
-            <input type="text" placeholder="カテゴリ" v-model="search.category" />
           </div>
           
           <div class="field">
