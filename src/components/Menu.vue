@@ -1,10 +1,10 @@
 <template>
   <div class="ui secondary pointing green inverted massive menu" v-if="isMenuNeeded">
-    <router-link active-class="active" class="item" exact to="/">Home</router-link>
-    <router-link active-class="active" class="item" to="/user">User</router-link>
-    <router-link active-class="active" class="item" to="/profile">Profile</router-link>
+    <router-link active-class="active" class="item" exact to="/">ホーム</router-link>
+    <router-link active-class="active" class="item" to="/group">グループ</router-link>
+    <router-link active-class="active" class="item" to="/ranking">ランキング</router-link>
     <div class="right menu">
-      <a @click="logout" class="item">Logout</a>
+      <a @click="logout" class="item">ログアウト</a>
     </div>
   </div>
 </template>
