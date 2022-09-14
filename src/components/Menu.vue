@@ -1,6 +1,10 @@
 <template>
-  <div class="ui secondary pointing orange inverted massive menu" v-if="isMenuNeeded">
-    <router-link active-class="active" class="item" exact to="/">ホーム</router-link>
+  <!--<div>-->
+    <div class="ui secondary pointing orange labeled icon massive menu" v-if="isMenuNeeded">
+    <router-link active-class="active" class="item" exact to="/">
+      <i class="home icon"></i>
+      ホーム
+    </router-link>
     <router-link active-class="active" class="item" to="/group">グループ</router-link>
     <router-link active-class="active" class="item" to="/ranking">ランキング</router-link>
     <div class="right menu">

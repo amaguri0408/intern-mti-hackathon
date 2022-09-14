@@ -23,6 +23,11 @@
         </p>
         
         <form class="ui large form" @submit.prevent="submit">
+          <div class="ui header">
+            <i class="id card outline icon"></i>
+            <div class="content">ユーザー情報</div>
+          </div>
+          
           <div CLASS="field">
             <div class="ui left icon input">
               <i class="user icon"></i>
@@ -51,7 +56,7 @@
             </div>
           </div>
           
-          <button class="ui huge fluid green button" v-bind:disabled="submitDisabled" type="submit">
+          <button class="ui huge fluid orange button" v-bind:disabled="submitDisabled" type="submit">
             更新
           </button>
         </form>
@@ -59,6 +64,30 @@
       <button @click="deleteUser" class="ui small grey fluid button" type="submit">
         退会
       </button>
+      <div class="ui segment">
+        <div class="ui header">
+          <i class="user circle icon"></i>
+          <div class="content">所属グループ名</div>
+        </div>
+        <div class="ui orange huge label">筋トレ部A</div>
+      </div>
+      <div class="ui segment">
+        <div class="ui header">
+          <i class="video play icon"></i>
+          <div class="content">おすすめ動画</div>
+        </div>
+        <yt-video videoId="g46tZN9J_2k" :width="966" :height="543" />
+      </div>
+      <button @click="toggleMode()" class="ui huge orange fluid button" type="submit" v-if="!isMeal">
+        食事をした
+      </button>
+      <div class="ui segment" v-if="isMeal">
+        <div class="ui header">
+          <i class="clock outline icon"></i>
+          <div class="content">おすすめ筋トレ時間</div>
+        </div>
+        <div>16:00~17:00</div>
+      </div>
     </div>
   </div>
 </template>
@@ -66,6 +95,7 @@
 // 必要なものはここでインポートする
 // @は/srcの同じ意味です
 // import something from '@/components/something.vue';
+import YtVideo from "@/components/YtVideo.vue";
 import { baseUrl } from '@/assets/config.js';
 import axios from "axios";
 
@@ -73,6 +103,7 @@ export default {
   name: 'Mypage',
   components: {
    // 読み込んだコンポーネント名をここに記述する
+   YtVideo,
   },
   data() {
   // Vue.jsで使う変数はここに記述する
@@ -86,6 +117,7 @@ export default {
       successMsg: "",
       errorMsg: "",
       isCallingApi: false,
+      isMeal: false
     };
   },
   computed: {
@@ -97,6 +129,9 @@ export default {
   },
   methods: {
   // Vue.jsで使う関数はここで記述する
+    toggleMode() {
+      this.isMeal = !this.isMeal;
+    },
     clearMsg(target) {
       if (target === "success"){
         this.successMsg = ""
