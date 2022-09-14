@@ -12,7 +12,15 @@ exports.handler = async (event, context) => {
     body: JSON.stringify({ message: "" }),
   };
 
-  const userId = event.queryStringParameters.userId; //見たいユーザのuserId
+  const {userId, groupId} = JSON.parse(event.body);
+
+  if (!userId || !groupId) {
+    response.statusCode = 400;
+    response.body = JSON.stringify({
+      messege: "無効なリクエストです．request bodyに必須パラメータがセットされていません．",
+    })
+    return response;
+  }
 
   //TODO: 取得対象のテーブル名と検索に使うキーをparamに宣言
   const param = {TableName, Key: {userId}};
@@ -21,11 +29,15 @@ exports.handler = async (event, context) => {
     // dynamo.get()でDBからデータを取得
     let user = (await dynamo.get(param).promise()).Item;
     
-    //TODO: 条件に該当するデータがあればパスワードを隠蔽をする処理を記述
-    delete user?.password;
-    //TODO: レスポンスボディに取得したUserの情報を設定する
+    // グループidを加えて上書きする
+    user.groupId = groupId
+    const param2 = {
+      TableName,
+      Item: user
+    }
+    let res = (await dynamo.put(param2).promise());
+    delete user.password
     response.body = JSON.stringify(user);
-  
   }catch(e){
     response.statusCode = 500;
     response.body = JSON.stringify({
