@@ -15,7 +15,6 @@ exports.handler = async (event, context) => {
   // const {userId, password} = JSON.parse(event.body);
 
   const body = event.body? JSON.parse(event.body) : null;
-  console.log(body);
   if (!body || !body.userId || !body.password) {
     console.log(body)
     response.statusCode = 400;
@@ -47,7 +46,7 @@ exports.handler = async (event, context) => {
     //TODO: 該当するデータが見つからない場合の処理を記述(ヒント：resの中には個数のプロパティが入っています。)
     //TODO: 認証が成功した場合のレスポンスボディを設定する。
     if (res.Count){
-      response.body = JSON.stringify({token: "mtiToken"});
+      response.body = JSON.stringify({groupId: res.Items[0].groupId, token: "mtiToken"});
     } else {
       response.body = JSON.stringify({message: "userIdまたはpasswordが一致しません"})
       response.statusCode = 401;
