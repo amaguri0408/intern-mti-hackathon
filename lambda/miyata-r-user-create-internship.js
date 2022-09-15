@@ -17,6 +17,7 @@ exports.handler = async (event, context) => {
   const password = params.password;
   const username = params.username;
   const age = params.age;
+  const groupId = params?.groupId;
   // TODO: DBに登録するための情報をparamオブジェクトとして宣言する（中身を記述）
   const param = {TableName, "Item": params};
   
@@ -26,7 +27,7 @@ exports.handler = async (event, context) => {
     // TODO: 登録に成功した場合の処理を記載する。(status codeの設定と、response bodyの設定)
     const token = "mtiToken"
     response.statusCode = 201;
-    response.body = JSON.stringify({userId, username, age, token});
+    response.body = JSON.stringify({userId, groupId, username, age, token});
   }catch(e){
     response.statusCode = 500;
     response.body = JSON.stringify({
