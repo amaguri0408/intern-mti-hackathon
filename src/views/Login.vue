@@ -19,6 +19,13 @@
           </div>
           
           <div class="field" v-if="!isLogin">
+            <div class="ui left icon input">
+              <i class="tag icon"></i>
+              <input type="text" placeholder="Nickname" v-model="user.nickname">
+            </div>
+          </div>
+          
+          <div class="field" v-if="!isLogin">
             <div class="field">
               <div class="field">
               <div class="ui radio checkbox">
@@ -37,16 +44,16 @@
             
             <div class="field" v-if="isCheck">
               <div class="ui dividing header">
-                <i class="users small icon"></i> グループ選択
+                <i class="users small icon"></i>グループ選択
               </div>
             
-        <template v-for="(group) in groups">
-            <div v-bind:key="group" class="ui segment">
-              <div class="content">
+          <template v-for="(group,index) in groups">
+            <div v-bind:key="index" class="field">
+              <button class="ui toggle orange button" type="button" @click="chooseGroup(group.groupId)">
                 {{ group.name }}
-              </div>
+              </button>
             </div>
-        </template>
+          </template>
             </div>
         
           </div>
@@ -84,6 +91,10 @@ export default {
         nickname: null,
         age: null
       },
+      group: {
+        name: null,
+        groupId: null
+      },
       isCheck: false,
     };
   },
@@ -107,13 +118,19 @@ export default {
     unCheck() {
       this.isCheck = false;
     },
+    chooseGroup(groupId) {
+      this.group.groupId = groupId; 
+      console.log(groupId);
+    },
     // 非同期操作→async
     async submit() {
       const path = this.isLogin? "/user/login": "/user/signup";
       const { userId, password, nickname, age } = this.user;
+      const groupId = this.group.groupId;
+      console.log(groupId);
       const requestBody = this.isLogin
         ?{userId, password}
-        :{userId, password, nickname, age};
+        :{userId, password, nickname, age, groupId};
       console.log(path, requestBody)
       
       try {
@@ -121,15 +138,12 @@ export default {
         
         window.localStorage.setItem('token', res.data.token);
         window.localStorage.setItem('userId', this.user.userId);
+        window.localStorage.setItem('groupId', this.group.groupId);
         this.$router.push({name: "Mypage"});
       } catch(e) {
         console.log(e);
       }
-      // if(!this.isLogin) {
-      //   const groupId = 
-      //   const p = "/user?";
-      // }
-    }
+    },
   },
   created: async function() {
     try {
