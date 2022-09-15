@@ -135,10 +135,11 @@ export default {
       
       try {
         const res = await axios.post(baseUrl + path, requestBody);
+        const id = res.data.groupId
         
         window.localStorage.setItem('token', res.data.token);
         window.localStorage.setItem('userId', this.user.userId);
-        window.localStorage.setItem('groupId', groupId);
+        window.localStorage.setItem('groupId', id);
         this.$router.push({name: "Mypage"});
       } catch(e) {
         console.log(e);

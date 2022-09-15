@@ -20,9 +20,12 @@
               <div class="content">共有</div>
             </div>
             </button>
+            <!--<div class="ui horizontal list">-->
+            <!--  <div class="center aligned item"><div class="ui center aligned header">{{myrank.rank}}位</div></div>-->
+            <!--</div>-->
             <div class="ui center aligned header">
-              {{myrank.rank}}
-              <p>{{myrank.totalPoint}}</p>
+              {{myrank.rank}}位
+              <p>{{myrank.totalPoint}}pt</p>
             </div>
           </div>
         </div>
@@ -114,6 +117,7 @@ export default {
     
     try {
       const res = await axios.get(baseUrl + `/group_point/rank?groupId=${groupId}`, {headers});
+      // const res = await axios.get(baseUrl + `/group_point/rank?groupId=group1`, {headers});
       // 成功処理
       this.myrank = res.data;
       console.log(res.data);
