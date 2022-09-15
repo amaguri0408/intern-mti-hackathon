@@ -1,6 +1,8 @@
 <template>
-  <div class="ui secondary pointing orange inverted labeled icon massive menu" v-if="isMenuNeeded">
-    <router-link active-class="active" class="item" exact to="/">ホーム</router-link>
+  <!--<div class="ui secondary pointing orange inverted labeled icon massive menu" v-if="isMenuNeeded">-->
+    <!--<div></div>-->
+  <!--</div>-->
+  <div class="ui vertical footer segment">
   </div>
 </template>
 <script>
