@@ -14,7 +14,7 @@
       </div>
       
       <div class="ui right aligned segment">
-        <form class="ui form" @submit.prevent="postArticle">
+        <form class="ui form" >
           <div class="ui field">
             <div class="ui input">
               <!--<input type="textarea" placeholder="本文">-->
@@ -22,7 +22,7 @@
             </div>
             
             <div class="ui field">
-              <button class="ui orange large button" type="submit">
+              <button  @click="postArticle" class="ui orange large button" type="submit">
                 <i class="edit icon"></i> 投稿
               </button>
             </div>
@@ -96,6 +96,7 @@ export default {
         end: null,
       },
       articles: [],
+      groupId:  window.localStorage.getItem('groupId'),
       iam: null,
       // isMyId: [],
       hasCategory: [],
@@ -109,21 +110,21 @@ export default {
   created: async function() {
      this.isCallingApi = true;
     
-    const token = window.localStorage.getItem('token');
-    if (!token) { // tokenがなければloginに移動
-      this.$router.push({name: "Login"});
-    }
-    const headers = {'Authorization': token};
+    // const token = window.localStorage.getItem('token');
+    // if (!token) { // tokenがなければloginに移動
+    //   this.$router.push({name: "Login"});
+    // }
+    // const headers = {'Authorization': token};
     
-    try {
-      const res = await axios.get(baseUrl + "/users", {headers});
-      // 成功処理
-      this.users = res.data.users;
-    }catch(e){
-      // エラー処理
-      alert("ユーザー情報が認証できませんでした．ログインし直してください．")
-      this.$router.push({name: "Login"});
-    }
+    // try {
+    //   const res = await axios.get(baseUrl + "/users", {headers});
+    //   // 成功処理
+    //   this.users = res.data.users;
+    // }catch(e){
+    //   // エラー処理
+    //   alert("ユーザー情報が認証できませんでした．ログインし直してください．")
+    //   this.$router.push({name: "Login"});
+    // }
     
     await this.getArticles();
     
@@ -155,28 +156,24 @@ export default {
     },
     
     async getArticles() {// 記事一覧を取得する
-      const headers = {'Authorization' : 'mtiToken'};
     try {
-      const res = await axios.get(baseUrl + "/articles", { headers });
+      const res = await axios.get(baseUrl + `/articles?groupId=${ this.groupId }`);
       this.articles = res.data;
+      console.log(this.articles)
     } catch (e){
       //error処理
+      console.log(e);
     }
     }, 
-    async postArticle() {// 記事を作成する
-      // headerを指定する
-      const headers = {'Authorization' : 'mtiToken'};
+     async postArticle() {// 記事を作成する
       // リクエストボディを指定する
       let requestBody = {
         userId: window.localStorage.getItem('userId'),
         text: this.post.text,
       };
-      if (this.post.category){
-        requestBody.category = this.post.category;
-      }
       
       try {
-        const res = await axios.post(baseUrl + '/article', requestBody, { headers });
+        const res = await axios.post(baseUrl + '/article', requestBody);
         console.log(res);
         
       }catch(e){
