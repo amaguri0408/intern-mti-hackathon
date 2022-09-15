@@ -30,9 +30,14 @@ exports.handler = async (event, context) => {
     const res = (await dynamo.scan(param).promise()).Items;
     // TODO: 登録に成功した場合の処理を記載する。(status codeの設定と、response bodyの設定)
     
-    const tmp = res.map((x) => {return x.point})
-    const total = tmp.reduce((x, y) => {return x + y})
-    response.body = JSON.stringify({userPoint: res});
+    let total;
+    if (res.length == 0) {
+      total = 0
+    } else {
+      const tmp = res.map((x) => {return x.point})
+      total = tmp.reduce((x, y) => {return x + y})
+    }
+    response.body = JSON.stringify({userPoint: total});
   }catch(e){
     response.statusCode = 500;
     response.body = JSON.stringify({
