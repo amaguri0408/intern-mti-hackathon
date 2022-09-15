@@ -7,13 +7,16 @@
           <label>{{myTeamRank}}&emsp;{{myTeamName}}&emsp;{{myTeamPoint}}</label>
           <br><br>
           <button @click="tweet()" class="ui orange button">
-            Twitterに投稿
+            <div class="ui header">
+              <i class="twitter icon"></i>
+              <div class="content">共有</div>
+            </div>
           </button>
         </form>
       </div>
       
       <div class="ui center aligned segment">
-        <label>ランキング</label>
+        <h1>ランキング</h1>
       
         <ul class="ui column">
           <template v-for="(item, index) in rankingList">

@@ -112,7 +112,7 @@ export default {
         
         window.localStorage.setItem('token', res.data.token);
         window.localStorage.setItem('userId', this.user.userId);
-        this.$router.push({name: "Home"});
+        this.$router.push({name: "Mypage"});
       } catch(e) {
         console.log(e);
       }
