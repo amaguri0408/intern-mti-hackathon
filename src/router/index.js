@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Mypage.vue'
+import Mypage from '../views/Mypage.vue'
 import Login from '../views/Login.vue'
 import Ranking from '../views/Ranking.vue'
 import Group from '../views/Group.vue'
@@ -10,8 +10,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Mypage',
+    component: Mypage
   },
   {
     path: '/login',

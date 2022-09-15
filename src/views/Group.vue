@@ -1,7 +1,18 @@
 <template>
   <div>
     <div class="ui main container">
-      <!-- 基本的なコンテンツはここに記載する -->
+      <!--ローディング表示-->
+      <div class="ui active inverted page dimmer" v-if="isCallingApi">
+        <div class="ui text loader">Loading</div>
+      </div>
+      
+      <div class="ui segment">
+        <div class="ui header">
+          <i class="users icon"></i>筋トレ部A
+        </div>
+        <div class="content">筋トレポイント:1000pt</div>
+      </div>
+      
       <div class="ui segment">
         <form class="ui form" @submit.prevent="postArticle">
           <div class="ui field">
@@ -23,7 +34,7 @@
       <div class="ui segment">
         <div class="ui dividing header">
             <i class="chat icon"></i>
-            筋トレ部A グループチャット
+            グループチャット
           </div>
         <div class="ui comments">
         <template v-for="(article, index) in articles">
@@ -34,7 +45,9 @@
                 <div class="metadata"><span class="date"> {{ dateTime[index] }} </span></div>
                 <div class="text"> {{ article.text }} </div>
                 <!--<div v-if="hasCategory[index]" class="ui orange label large"> {{ article.category }} </div>-->
-                <div v-if="isMyArticle(article.userId)" class="mini ui button article-delete">削除</div>
+                <div v-if="isMyArticle(article.userId)" class="mini ui button article-delete">
+                  <i class="close icon"></i>削除
+                </div>
               </div>
             </div>
           </div>
@@ -87,12 +100,15 @@ export default {
       // isMyId: [],
       hasCategory: [],
       dateTime: [],
+      isCallingApi: false
     };
   },
   computed: {
   },
   
   created: async function() {
+     this.isCallingApi = true;
+    
     const token = window.localStorage.getItem('token');
     if (!token) { // tokenがなければloginに移動
       this.$router.push({name: "Login"});
@@ -116,10 +132,7 @@ export default {
       this.convertToLocaleString(article.timestamp);
       this.hasSomeCategory(article.category);
     })
-    
-    // this.articles.forEach((article) => {
-    // })
-    
+    this.isCallingApi = false;
   },
 
   methods: {

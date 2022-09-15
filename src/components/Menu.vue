@@ -15,7 +15,7 @@
     </router-link>
     <div class="right menu">
       <a @click="logout" class="item">
-        <i class="external alternate icon"></i>
+        <i class="sign out icon"></i>
         ログアウト
       </a>
     </div>
