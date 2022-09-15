@@ -14,18 +14,10 @@ exports.handler = async (event, context) => {
   const {userId, text, category} = JSON.parse(event.body);
   
   const timestamp = Date.now()
-  const param = {
-    TableName: "User",
-    Item: {
-      userId,
-      timestamp,
-      text,
-      category
-    }
-  };
+  const param = { TableName };
   
   try{
-    await dynamo.put(param).promise();
+    await dynamo.get(param).promise();
     // TODO: 登録に成功した場合の処理を記載する。(status codeの設定と、response bodyの設定)
     response.statusCode = 201;
     const rbody = {
