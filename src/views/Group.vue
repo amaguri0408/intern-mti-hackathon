@@ -10,18 +10,20 @@
         <div class="ui header">
           <i class="users icon"></i>筋トレ部A
         </div>
-        <div class="content">筋トレポイント:1000pt</div>
+        <div class="ui large label">1000pt</div>
       </div>
       
       <div class="ui right aligned segment">
         <form class="ui form" >
           <div class="ui field">
-            <div class="ui input">
+            <div class="field">
+              <div class="ui input">
               <!--<input type="textarea" placeholder="本文">-->
               <textarea placeholder="グループに筋トレの報告をしましょう！" v-model="post.text"></textarea>
+              </div>
             </div>
             
-            <div class="ui field">
+            <div class="field">
               <button  @click="postArticle" class="ui orange large button" type="submit">
                 <i class="edit icon"></i> 投稿
               </button>

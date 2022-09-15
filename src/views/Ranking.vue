@@ -36,15 +36,18 @@
           <i class="trophy icon"></i> ランキング
         </div>
       
-        <div class="ui list">
+        <div class="ui orange list">
           <template v-for="(item, index) in ranking">
             <div class="column" :key="index">
-              <div class="ui fluid card" >
-                {{index + 1}}位
+              <div class="field">
+                <div class="ui fluid card" >
+                <div class="ui mini orange button">{{index + 1}}位</div>
+                <!--{{index + 1}}位-->
                 <div class="content">
                   <!--<label>{{index + 1}}位&emsp;{{item.groupname}}</label>-->
                   <div class="header">{{item.groupname}}</div>
                   {{item.totalPoint}}pt
+                </div>
                 </div>
               </div>
             </div>

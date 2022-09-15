@@ -104,7 +104,7 @@
           <i class="star outline icon"></i>
           <div class="content">筋トレpoint</div>
         </div>
-        <div class="ui huge label">{{ userPoint }}</div>
+        <div class="ui huge label">{{ userPoint }}pt</div>
       </div>
       
       <div class="ui segment">
