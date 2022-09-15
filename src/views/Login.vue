@@ -14,38 +14,54 @@
           <div class="field">
             <div class="ui left icon input">
               <i class="lock icon"></i>
-              <input type="text" placeholder="Password" v-model="user.password">
+              <input type="password" placeholder="Password" v-model="user.password">
             </div>
           </div>
           
-          <div v-if="!isLogin">
+          <div class="field" v-if="!isLogin">
+            <div class="ui left icon input">
+              <i class="tag icon"></i>
+              <input type="text" placeholder="Nickname" v-model="user.username">
+            </div>
+          </div>
+          
+          <div CLASS="field" v-if="!isLogin">
+            <div class="ui left icon input">
+              <i class="calendar icon"></i>
+              <input type="text" placeholder="Age" v-model="user.age">
+            </div>
+          </div>
+          
+          <div class="field" v-if="!isLogin">
             <div class="field">
+              <div class="field">
               <div class="ui radio checkbox">
-                <input type="radio" name="type" value="alone">
+                <input type="radio" name="type" value="alone" @click="check()">
                 <label>一人で始める</label>
               </div>
             </div>
             
             <div class="field" value="together">
               <div class="ui radio checkbox">
-                <input type="radio" name="type">
+                <input type="radio" name="type" @click="unCheck()">
                 <label>友達と始める</label>
               </div>
             </div>
+            </div>
             
-            <h2>グループ選択</h2>
-        
-            <div class="ui segment group">AAAAAAAAa</div>
-            <div class="ui segment group">AAAAAAAAa</div>
-            <div class="ui segment group">AAAAAAAAa</div>
+            <div class="field" v-if="isCheck">
+              <div class="ui dividing header">
+                <i class="users small icon"></i>グループ選択
+              </div>
             
-        <!--<template v-for="(group) in groups">-->
-        <!--    <div class="ui segment">-->
-        <!--      <div class="content">-->
-        <!--        <div class="orange">{{ group }}</div>-->
-        <!--      </div>-->
-        <!--    </div>-->
-        <!--</template>-->
+          <template v-for="(group,index) in groups">
+            <div v-bind:key="index" class="field">
+              <button class="ui toggle orange button" type="button" @click="chooseGroup(group.groupId)">
+                {{ group.name }}
+              </button>
+            </div>
+          </template>
+            </div>
         
           </div>
           
@@ -79,9 +95,14 @@ export default {
       user: {
         userId: null,
         password: null,
-        nickname: null,
+        username: null,
         age: null
       },
+      group: {
+        name: null,
+        groupId: null
+      },
+      isCheck: false,
     };
   },
   computed: {
@@ -98,26 +119,52 @@ export default {
     toggleMode() {
       this.isLogin = !this.isLogin;
     },
+    check() {
+      this.isCheck = true;
+    },
+    unCheck() {
+      this.isCheck = false;
+    },
+    chooseGroup(groupId) {
+      this.group.groupId = groupId; 
+      console.log(groupId);
+    },
     // 非同期操作→async
     async submit() {
       const path = this.isLogin? "/user/login": "/user/signup";
-      const { userId, password, nickname, age } = this.user;
+      const { userId, password, username, age } = this.user;
+      const groupId = this.group.groupId;
+      console.log(groupId);
       const requestBody = this.isLogin
         ?{userId, password}
-        :{userId, password, nickname, age};
+        :{userId, password, username, age, groupId};
       console.log(path, requestBody)
       
       try {
         const res = await axios.post(baseUrl + path, requestBody);
+        const id = res.data.groupId
         
         window.localStorage.setItem('token', res.data.token);
         window.localStorage.setItem('userId', this.user.userId);
+        window.localStorage.setItem('groupId', id);
         this.$router.push({name: "Mypage"});
       } catch(e) {
         console.log(e);
       }
-    }
+    },
   },
+  created: async function() {
+    try {
+      const res = await axios.get(baseUrl + "/groups");
+      // 成功処理
+      this.groups = res.data.groups;
+    }catch(e){
+      // エラー処理
+      alert("グループの取得に失敗しました．")
+      this.$router.push({name: "Login"});
+    }
+    
+  }
 }
 </script>
 <style scoped>
