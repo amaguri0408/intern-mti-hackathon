@@ -138,7 +138,7 @@ export default {
         
         window.localStorage.setItem('token', res.data.token);
         window.localStorage.setItem('userId', this.user.userId);
-        window.localStorage.setItem('groupId', this.group.groupId);
+        window.localStorage.setItem('groupId', groupId);
         this.$router.push({name: "Mypage"});
       } catch(e) {
         console.log(e);
