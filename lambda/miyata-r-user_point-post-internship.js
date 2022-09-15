@@ -39,34 +39,34 @@ exports.handler = async (event, context) => {
     };
     response.body = JSON.stringify(rbody);
     
-  }catch(e){
-    response.statusCode = 500;
-    response.body = JSON.stringify({
-      message: "予期せぬエラーが発生しました。UserPointテーブル登録時エラー",
-      errorDetail: e.toString()
-    });
-  }
-  
-  // GroupPointテーブルにも登録
-  const groupPointId = AWS.util.uuid.v4();
-  const param2 = {
-    TableName: "Team1GroupPoint",
-    Item: {
-      groupPointId,
-      trainingHistoryId,
-      userId,
-      point,
-      timestamp
+    // ユーザのgroupIdを取得
+    const param3 = {
+      TableName: "Team1User",
+      Key: {
+        userId
+      }
     }
-  }
-  try {
-    
+    const user = (await dynamo.get(param3).promise()).Item;
+    const groupId = user.groupId;
+    // GroupPointテーブルにも登録
+    const groupPointId = AWS.util.uuid.v4();
+    const param2 = {
+      TableName: "Team1GroupPoint",
+      Item: {
+        groupPointId,
+        groupId,
+        trainingHistoryId,
+        userId,
+        point,
+        timestamp
+      }
+    }
     await dynamo.put(param2).promise();
     
   }catch(e){
     response.statusCode = 500;
     response.body = JSON.stringify({
-      message: "予期せぬエラーが発生しました。GroupPointテーブル登録時エラー",
+      message: "予期せぬエラーが発生しました。",
       errorDetail: e.toString()
     });
   }
