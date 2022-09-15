@@ -22,6 +22,16 @@
             <div class="ui left icon input">
               <i class="tag icon"></i>
               <input type="text" placeholder="Nickname" v-model="user.username">
+<<<<<<< Updated upstream
+=======
+            </div>
+          </div>
+          
+          <div CLASS="field" v-if="!isLogin">
+            <div class="ui left icon input">
+              <i class="calendar icon"></i>
+              <input type="text" placeholder="Age" v-model="user.age">
+>>>>>>> Stashed changes
             </div>
           </div>
           
