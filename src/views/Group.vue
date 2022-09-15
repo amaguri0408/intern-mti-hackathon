@@ -4,14 +4,16 @@
       <!-- 基本的なコンテンツはここに記載する -->
       <div class="ui segment">
         <form class="ui form" @submit.prevent="postArticle">
-          <div CLASS="field">
+          <div class="ui field">
             <div class="ui input">
               <!--<input type="textarea" placeholder="本文">-->
               <textarea placeholder="グループに筋トレの報告をしましょう！" v-model="post.text"></textarea>
             </div>
             
             <div class="ui field">
-              <button class="ui orange button" type="submit">投稿</button>
+              <button class="ui orange button" type="submit">
+                <i class="edit icon"></i> 投稿
+              </button>
             </div>
           </div>
         
@@ -19,43 +21,37 @@
       </div>
       
       <div class="ui segment">
-        <form class="ui form" @submit.prevent="getSearchedArticles">
-          <div class="field">
-            <label>ユーザー名</label>
-            <input type="text" placeholder="ユーザーID" v-model="search.userId" />
+        <div class="ui dividing header">
+            <i class="chat icon"></i>
+            筋トレ部A グループチャット
           </div>
-          
-          <div class="field">
-            <label>投稿日時</label>
-            <div class="inline fields">
-              <div class="field">
-                <input type="text" v-model.number="search.start" />
-                <label>から</label>
-              </div>
-              
-              <div class="field">
-                <input type="text" v-model.number="search.end" />
-                <label>
-                  まで
-                </label>
+        <div class="ui comments">
+        <template v-for="(article, index) in articles">
+          <div v-bind:key="index" class="ui segment inverted orange article-card" v-if="isMyArticle(article.userId)">
+            <div class="comment">
+              <div class="content">
+                <div class="author"> {{ article.userId }} </div>
+                <div class="metadata"><span class="date"> {{ dateTime[index] }} </span></div>
+                <div class="text"> {{ article.text }} </div>
+                <!--<div v-if="hasCategory[index]" class="ui orange label large"> {{ article.category }} </div>-->
+                <div v-if="isMyArticle(article.userId)" class="mini ui button article-delete">削除</div>
               </div>
             </div>
           </div>
-          <button class="ui orange button" type="submit">検索</button>
-        </form>
-      </div>
-      
-      <ul class="ui comments divided articles">
-        <template v-for="(article, index) in articles">
-          <li v-bind:key="index" class="ui segment article-card ">
-            <h2 class="article-title"> {{ article.userId }} </h2>
-            <span class="article-time"> {{ dateTime[index] }} </span>
-            <p class="article-text"> {{ article.text }} </p>
-            <div v-if="hasCategory[index]" class="ui orange label large"> {{ article.category }} </div>
-            <div v-if="isMyArticle(article.userId)" class="mini ui button article-delete">削除</div>
-          </li>
+          <div v-bind:key="index" class="ui segment orange article-card" v-if="!isMyArticle(article.userId)">
+            <div class="comment">
+              <div class="content">
+                <div class="author"> {{ article.userId }} </div>
+                <div class="metadata"><span class="date"> {{ dateTime[index] }} </span></div>
+                <div class="text"> {{ article.text }} </div>
+                <!--<div v-if="hasCategory[index]" class="ui orange label large"> {{ article.category }} </div>-->
+                <!--<div v-if="isMyArticle(article.userId)" class="mini ui button article-delete">削除</div>-->
+              </div>
+            </div>
+          </div>
         </template>
-      </ul>
+      </div>
+      </div>
       </div>
   </div>
 </template>
