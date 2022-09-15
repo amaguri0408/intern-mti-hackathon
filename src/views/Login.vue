@@ -21,7 +21,14 @@
           <div class="field" v-if="!isLogin">
             <div class="ui left icon input">
               <i class="tag icon"></i>
-              <input type="text" placeholder="Nickname" v-model="user.nickname">
+              <input type="text" placeholder="Nickname" v-model="user.username">
+            </div>
+          </div>
+          
+          <div CLASS="field" v-if="!isLogin">
+            <div class="ui left icon input">
+              <i class="calendar icon"></i>
+              <input type="text" placeholder="Age" v-model="user.age">
             </div>
           </div>
           
@@ -88,7 +95,7 @@ export default {
       user: {
         userId: null,
         password: null,
-        nickname: null,
+        username: null,
         age: null
       },
       group: {
@@ -125,12 +132,12 @@ export default {
     // 非同期操作→async
     async submit() {
       const path = this.isLogin? "/user/login": "/user/signup";
-      const { userId, password, nickname, age } = this.user;
+      const { userId, password, username, age } = this.user;
       const groupId = this.group.groupId;
       console.log(groupId);
       const requestBody = this.isLogin
         ?{userId, password}
-        :{userId, password, nickname, age, groupId};
+        :{userId, password, username, age, groupId};
       console.log(path, requestBody)
       
       try {
