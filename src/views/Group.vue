@@ -13,7 +13,7 @@
         <div class="content">筋トレポイント:1000pt</div>
       </div>
       
-      <div class="ui segment">
+      <div class="ui right aligned segment">
         <form class="ui form" @submit.prevent="postArticle">
           <div class="ui field">
             <div class="ui input">
@@ -22,7 +22,7 @@
             </div>
             
             <div class="ui field">
-              <button class="ui orange button" type="submit">
+              <button class="ui orange large button" type="submit">
                 <i class="edit icon"></i> 投稿
               </button>
             </div>
@@ -127,11 +127,19 @@ export default {
     
     await this.getArticles();
     
+    this.articles.sort(function(a,b){
+      if(a.timestamp > b.timestamp)return 1;
+      else if(a.timestamp < b.timestamp)return -1;
+      else return 0;
+    });
+    this.articles.reverse();
+    
     this.articles.forEach((article) => {
       this.isMyArticle(article.userId);
       this.convertToLocaleString(article.timestamp);
       this.hasSomeCategory(article.category);
     })
+    
     this.isCallingApi = false;
   },
 
