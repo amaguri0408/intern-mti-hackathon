@@ -10,7 +10,7 @@
         <div class="ui header">
           <i class="users icon"></i>筋トレ部A
         </div>
-        <div class="ui large label">1000pt</div>
+        <div class="ui large label">筋トレポイント:{{groupPoint}}pt</div>
       </div>
       
       <div class="ui right aligned segment">
@@ -98,6 +98,7 @@ export default {
         end: null,
       },
       articles: [],
+      groupPoint: 0,
       groupId:  window.localStorage.getItem('groupId'),
       iam: null,
       // isMyId: [],
@@ -128,7 +129,9 @@ export default {
     //   this.$router.push({name: "Login"});
     // }
     
+    
     await this.getArticles();
+    await this.getPoint();
     
     this.articles.sort(function(a,b){
       if(a.timestamp > b.timestamp)return 1;
@@ -155,6 +158,17 @@ export default {
     
     hasSomeCategory(category) {
       this.hasCategory.push(typeof category !== "undefined");
+    },
+    
+    async getPoint() {
+      try {
+        const res = await axios.get(baseUrl + `/group_point/total?groupId=group1`);
+        // 成功処理
+        this.groupPoint = res.data.userPoint;
+        console.log(this.groupPoint);
+      }catch(e){
+        // エラー処理
+      }
     },
     
     async getArticles() {// 記事一覧を取得する
