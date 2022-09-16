@@ -8,7 +8,7 @@
       
       <div class="ui segment">
         <div class="ui header">
-          <i class="users icon"></i>筋トレ部A
+          <i class="users icon"></i>{{groupName}}
         </div>
         <div class="ui large label">筋トレポイント:{{groupPoint}}pt</div>
       </div>
@@ -104,7 +104,8 @@ export default {
       // isMyId: [],
       hasCategory: [],
       dateTime: [],
-      isCallingApi: false
+      isCallingApi: false,
+      groupName: ""
     };
   },
   computed: {
@@ -129,7 +130,7 @@ export default {
     //   this.$router.push({name: "Login"});
     // }
     
-    
+    await this.getGroupName();
     await this.getArticles();
     await this.getPoint();
     
@@ -162,10 +163,21 @@ export default {
     
     async getPoint() {
       try {
-        const res = await axios.get(baseUrl + `/group_point/total?groupId=group1`);
+        const res = await axios.get(baseUrl + `/group_point/total?groupId=${ this.groupId }`);
         // 成功処理
         this.groupPoint = res.data.userPoint;
         console.log(this.groupPoint);
+      }catch(e){
+        // エラー処理
+      }
+    },
+    
+    async getGroupName() {
+      try {
+        const res = await axios.get(baseUrl + `/group?groupId=${ this.groupId }`);
+        // 成功処理
+        this.groupName = res.data.name;
+        console.log(this.groupName);
       }catch(e){
         // エラー処理
       }
