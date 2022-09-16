@@ -41,7 +41,7 @@
             <div class="column" :key="index">
               <div class="field">
                 <div class="ui fluid card" >
-                <div class="ui mini orange button">{{index + 1}}位</div>
+                <div class="ui mini orange button">{{item.rank}}位</div>
                 <!--{{index + 1}}位-->
                 <div class="content">
                   <!--<label>{{index + 1}}位&emsp;{{item.groupname}}</label>-->

@@ -53,12 +53,17 @@ exports.handler = async (event, context) => {
     
     let groupRanking = [];
     points.forEach((point, index) => {
-      const group = {
+      var group = {
         "groupId": point[0],
         "groupname": groupNames[point[0]],
         "rank": index + 1,
         "totalPoint": point[1]
       };
+      const prePoint = groupRanking.slice(-1)[0]
+      // console.log(group, prePoint)
+      if (groupRanking.length !== 0 && group.totalPoint === prePoint.totalPoint){
+        group.rank = prePoint.rank
+      }
       groupRanking.push(group);
     });
     response.body = JSON.stringify({ groupRanking });
