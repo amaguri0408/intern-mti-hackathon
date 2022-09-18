@@ -113,7 +113,7 @@
           <div class="content">おすすめ動画</div>
         </div>
         <yt-video videoId="g46tZN9J_2k" :width="966" :height="543" />
-        <button @click="trainingFinish()" class="ui huge fluid orange button" type="submit">
+        <button @click="trainingFinish()" class="ui huge fluid orange button" disabled=true type="submit">
           運動完了
         </button>
       </div>
